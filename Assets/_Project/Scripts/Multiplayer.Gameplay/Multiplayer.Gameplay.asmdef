@@ -1,0 +1,19 @@
+{
+    "name": "Multiplayer.Gameplay",
+    "rootNamespace": "Multiplayer.Gameplay",
+    "references": [
+        "GUID:a9e1aa04617b64443ae0bcd144fb3f96",
+        "GUID:a48b3c8ea99d9214d9e93c039130c6ff",
+        "GUID:d77dd61194c75ca4cbac3402b01d8ce5",
+        "GUID:30817c1a0e6d646d99c048fc403f5979"
+    ],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}

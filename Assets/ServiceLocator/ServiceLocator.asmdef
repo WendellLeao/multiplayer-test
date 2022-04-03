@@ -1,5 +1,5 @@
 {
-    "name": "GameServices",
+    "name": "ServiceLocator",
     "rootNamespace": "ServiceLocator",
     "references": [],
     "includePlatforms": [],

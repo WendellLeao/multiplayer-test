@@ -1,4 +1,5 @@
 using Multiplayer.Gameplay.Events;
+using Multiplayer.Events;
 using ServiceLocator;
 using UnityEngine;
 using Mirror;
@@ -14,8 +15,8 @@ namespace Multiplayer.Gameplay
             base.OnStartClient();
             
             IEventService eventService = GameServices.GetService<IEventService>();
-        
-            eventService.OnPlayerMaterialChanged += HandlePlayerMaterialChanged;
+            
+            eventService.AddEventListener<MaterialChangedEvent>(HandleMaterialChanged);
         }
 
         public override void OnStopClient()
@@ -23,13 +24,15 @@ namespace Multiplayer.Gameplay
             base.OnStopClient();
             
             IEventService eventService = GameServices.GetService<IEventService>();
-        
-            eventService.OnPlayerMaterialChanged -= HandlePlayerMaterialChanged;
+            
+            eventService.RemoveEventListener<MaterialChangedEvent>(HandleMaterialChanged);
         }
         
-        private void HandlePlayerMaterialChanged(Material material)
+        private void HandleMaterialChanged(MaterialChangedEvent materialChangedEvent)
         {
-            _meshRenderer.material = material;
+            Material newMaterial = materialChangedEvent.Material;
+            
+            _meshRenderer.material = newMaterial;
         }
     }
 }

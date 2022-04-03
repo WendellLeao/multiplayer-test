@@ -1,7 +1,8 @@
-using Multiplayer.Gameplay.Events;
+using Multiplayer.Events;
 using ServiceLocator;
 using UnityEngine;
 using Mirror;
+using Multiplayer.Gameplay.Events;
 
 namespace Multiplayer.Gameplay.Playing
 {
@@ -78,7 +79,9 @@ namespace Multiplayer.Gameplay.Playing
 
             IEventService eventService = GameServices.GetService<IEventService>();
 
-            eventService.DispatchPlayerMaterialEvent(material);
+            MaterialChangedEvent materialChangedEvent = new MaterialChangedEvent(material);
+            
+            eventService.DispatchEvent(materialChangedEvent);
         }
     }
 }

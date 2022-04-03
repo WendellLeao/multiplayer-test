@@ -2,7 +2,8 @@
     "name": "Multiplayer",
     "rootNamespace": "Multiplayer",
     "references": [
-        "GUID:30817c1a0e6d646d99c048fc403f5979"
+        "GUID:30817c1a0e6d646d99c048fc403f5979",
+        "GUID:a48b3c8ea99d9214d9e93c039130c6ff"
     ],
     "includePlatforms": [],
     "excludePlatforms": [],

@@ -46,6 +46,12 @@ namespace Multiplayer.Gameplay.Playing
             
             transform.position += direction * Time.deltaTime * speed;
 
+            IEventService eventService = GameServices.GetService<IEventService>();
+
+            PositionChangedEvent positionChangedEvent = new PositionChangedEvent(transform.position);
+            
+            eventService.DispatchEvent(positionChangedEvent);
+
             if (Input.GetKeyDown(KeyCode.Space))
             {
                 CmdSetUltimateMaterial();

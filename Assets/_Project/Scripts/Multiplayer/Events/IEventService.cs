@@ -1,11 +1,11 @@
+using UnityEngine.Events;
+
 namespace Multiplayer.Events
 {
     public interface IEventService
     {
-        delegate void EventDelegate<T> (T e) where T : ServiceEvent;
-
-        void AddEventListener<T>(EventDelegate<T> listener) where T : ServiceEvent;
-        void RemoveEventListener<T>(EventDelegate<T> listener) where T : ServiceEvent;
-        void DispatchEvent(ServiceEvent dispatchEvent);
+        public void AddEventListener<T>(UnityAction<ServiceEvent> listener) where T : ServiceEvent;
+        public void RemoveEventListener<T>(UnityAction<ServiceEvent> listener) where T : ServiceEvent;
+        public void DispatchEvent(ServiceEvent serviceEvent);
     }
 }

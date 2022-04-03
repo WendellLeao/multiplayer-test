@@ -1,13 +1,59 @@
+using System.Collections.Generic;
+using Multiplayer.Events;
+using UnityEngine.Events;
 using ServiceLocator;
 using UnityEngine;
+using System;
 
-namespace Multiplayer.Events
+namespace Multiplayer.EventManagers_master.Scripts
 {
-    public sealed class EventService : MonoBehaviour, IEventService
+    public class EventService : MonoBehaviour, IEventService
     {
-        private delegate void EventDelegate (ServiceEvent serviceEvent);
+        private Dictionary<Type, UnityEvent<ServiceEvent>> _eventDictionary = new Dictionary<Type, UnityEvent<ServiceEvent>>();
 
-        private EventDelegate _current;
+        public void AddEventListener<T>(UnityAction<ServiceEvent> listener) where T : ServiceEvent
+        {
+            var type = typeof(T);
+            
+            UnityEvent<ServiceEvent> thisEvent = null;
+            
+            if (_eventDictionary.TryGetValue(type, out thisEvent))
+            {
+                thisEvent.AddListener(listener);
+            }
+            else
+            {
+                thisEvent = new UnityEvent<ServiceEvent>();
+                
+                thisEvent.AddListener(listener);
+               
+                _eventDictionary.Add(type, thisEvent);
+            }
+        }
+        
+        public void RemoveEventListener<T>(UnityAction<ServiceEvent> listener) where T : ServiceEvent
+        {
+            var type = typeof(T);
+            
+            UnityEvent<ServiceEvent> thisEvent = null;
+            
+            if (_eventDictionary.TryGetValue(type, out thisEvent))
+            {
+                thisEvent.RemoveListener(listener);
+            }
+        }
+
+        public void DispatchEvent(ServiceEvent serviceEvent)
+        {
+            var type = serviceEvent.GetType();
+            
+            UnityEvent<ServiceEvent> thisEvent = null;
+
+            if (_eventDictionary.TryGetValue(type, out thisEvent))
+            {
+                thisEvent.Invoke(serviceEvent);
+            }
+        }
         
         private void Awake()
         {
@@ -17,21 +63,6 @@ namespace Multiplayer.Events
         private void OnDestroy()
         {
             GameServices.DeregisterService<IEventService>();
-        }
-
-        public void AddEventListener<T>(IEventService.EventDelegate<T> listener) where T : ServiceEvent
-        {
-            _current = serviceEvent => listener((T) serviceEvent);
-        }
-
-        public void RemoveEventListener<T>(IEventService.EventDelegate<T> listener) where T : ServiceEvent
-        {
-            _current = null;
-        }
-
-        public void DispatchEvent(ServiceEvent dispatchEvent)
-        {
-            _current?.Invoke(dispatchEvent);
         }
     }
 }

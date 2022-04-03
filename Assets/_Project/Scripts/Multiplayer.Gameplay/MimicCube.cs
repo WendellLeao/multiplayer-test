@@ -28,11 +28,14 @@ namespace Multiplayer.Gameplay
             eventService.RemoveEventListener<MaterialChangedEvent>(HandleMaterialChanged);
         }
         
-        private void HandleMaterialChanged(MaterialChangedEvent materialChangedEvent)
+        private void HandleMaterialChanged(ServiceEvent serviceEvent)
         {
-            Material newMaterial = materialChangedEvent.Material;
-            
-            _meshRenderer.material = newMaterial;
+            if (serviceEvent is MaterialChangedEvent materialChangedEvent)
+            {
+                Material newMaterial = materialChangedEvent.Material;
+                
+                _meshRenderer.material = newMaterial;
+            }
         }
     }
 }
